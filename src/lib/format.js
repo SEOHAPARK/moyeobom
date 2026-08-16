@@ -11,3 +11,8 @@ export function formatClock(date = new Date()) {
   const d = date instanceof Date ? date : new Date(date)
   return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
 }
+
+export function isNowPlaying(start, end) {
+  const now = formatClock(new Date())
+  return now >= start && now <= end
+}

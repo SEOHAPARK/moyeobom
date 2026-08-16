@@ -46,7 +46,7 @@ export default function ManualOriginPage() {
                 key={n}
                 onClick={() => { setSelected(n); setManual('') }}
                 className={`text-left px-4 py-3 rounded-xl border text-sm font-medium ${
-                  selected === n ? 'border-gray-900 bg-gray-900 text-white' : 'border-gray-200 bg-white text-gray-700'
+                  selected === n ? 'border-brand-500 bg-brand-500 text-white' : 'border-gray-200 bg-white text-gray-700'
                 }`}
               >
                 {n}
@@ -76,7 +76,7 @@ export default function ManualOriginPage() {
           <button
             onClick={handleSubmit}
             disabled={!origin}
-            className="px-5 py-2.5 rounded-xl bg-gray-900 text-white text-sm font-semibold disabled:opacity-40"
+            className="px-5 py-2.5 rounded-xl bg-brand-500 text-white text-sm font-semibold disabled:opacity-40 hover:bg-brand-600 transition"
           >
             출발지 설정
           </button>

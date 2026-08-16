@@ -4,23 +4,21 @@ import { supabase } from '../lib/supabase'
 import { useCongestion } from '../hooks/useCongestion'
 import MobileHeader from '../components/MobileHeader'
 import SectionCard from '../components/SectionCard'
-import StatusBadge from '../components/StatusBadge'
+import CongestionBar from '../components/CongestionBar'
 import { getLevel, getPercent } from '../lib/congestion'
-import { formatTime, formatClock } from '../lib/format'
+import { formatTime, isNowPlaying } from '../lib/format'
 
-function getNow() {
-  const now = new Date()
-  return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
-}
-
-function isNowPlaying(start, end) {
-  const now = getNow()
-  return now >= start && now <= end
+function durationLabel(start, end) {
+  const [sh, sm] = start.split(':').map(Number)
+  const [eh, em] = end.split(':').map(Number)
+  let diff = eh * 60 + em - (sh * 60 + sm)
+  if (diff < 0) diff += 24 * 60
+  return `${diff}min`
 }
 
 function Timetable({ performances }) {
   return (
-    <SectionCard title="🎵 공연 타임테이블">
+    <SectionCard title="TIME TABLE">
       {performances.length === 0 ? (
         <p className="text-center text-gray-400 py-8 text-sm">등록된 공연이 없습니다</p>
       ) : (
@@ -28,18 +26,11 @@ function Timetable({ performances }) {
           {performances.map(p => {
             const playing = isNowPlaying(p.start_time, p.end_time)
             return (
-              <li key={p.id} className={`flex items-center gap-4 px-5 py-4 ${playing ? 'bg-green-50' : ''}`}>
-                <div className="text-center w-20 flex-shrink-0 text-xs text-gray-400">
-                  <p>{p.start_time}</p>
-                  <p className="text-gray-300">–</p>
-                  <p>{p.end_time}</p>
-                </div>
-                <div className="flex-1">
-                  <p className={`font-semibold ${playing ? 'text-green-700' : 'text-gray-800'}`}>{p.artist}</p>
-                </div>
-                <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${playing ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-500'}`}>
-                  {playing ? '진행 중' : '예정'}
-                </span>
+              <li key={p.id} className="flex items-center justify-between px-5 py-3">
+                <p className={`text-sm ${playing ? 'font-bold text-gray-900' : 'text-gray-400'}`}>{p.artist}</p>
+                <p className={`text-xs ${playing ? 'text-gray-700' : 'text-gray-300'}`}>
+                  {p.start_time} - {p.end_time}({durationLabel(p.start_time, p.end_time)})
+                </p>
               </li>
             )
           })}
@@ -83,11 +74,11 @@ function EventList({ events }) {
           {events.map(e => {
             const active = isNowPlaying(e.start_time, e.end_time)
             return (
-              <li key={e.id} className={`px-5 py-4 ${active ? 'bg-purple-50' : ''}`}>
+              <li key={e.id} className={`px-5 py-4 ${active ? 'bg-brand-50' : ''}`}>
                 <div className="flex items-center justify-between">
-                  <p className={`font-semibold ${active ? 'text-purple-700' : 'text-gray-800'}`}>{e.name}</p>
+                  <p className={`font-semibold ${active ? 'text-brand-600' : 'text-gray-800'}`}>{e.name}</p>
                   {active && (
-                    <span className="text-xs bg-purple-500 text-white px-2 py-0.5 rounded-full">진행 중</span>
+                    <span className="text-xs bg-brand-500 text-white px-2 py-0.5 rounded-full">진행 중</span>
                   )}
                 </div>
                 {e.description && <p className="text-sm text-gray-400 mt-1">{e.description}</p>}
@@ -133,6 +124,52 @@ function LocationCard({ description }) {
   )
 }
 
+function NotifyButton({ startTime }) {
+  const [subscribed, setSubscribed] = useState(false)
+
+  async function toggle() {
+    if (subscribed) {
+      setSubscribed(false)
+      return
+    }
+    if (typeof Notification !== 'undefined') {
+      const permission = await Notification.requestPermission()
+      if (permission !== 'granted') return
+    }
+    setSubscribed(true)
+  }
+
+  return (
+    <button
+      onClick={toggle}
+      className={`rounded-xl py-3 font-bold text-sm transition ${
+        subscribed ? 'bg-brand-50 text-brand-600 border border-brand-500' : 'bg-gray-50 text-gray-500'
+      }`}
+    >
+      {subscribed ? `알림 설정됨${startTime ? ` (${startTime})` : ''}` : '알림 받기'}
+    </button>
+  )
+}
+
+function CrowdDetail({ zone, level, percent, online }) {
+  return (
+    <div className="rounded-xl bg-gray-50 px-4 py-3.5 text-sm flex flex-col gap-1.5">
+      <div className="flex items-center justify-between">
+        <span className="text-gray-400">현재 인원</span>
+        <span className="font-semibold text-gray-800">{zone.current_count.toLocaleString()}명 / {zone.zones.max_capacity.toLocaleString()}명</span>
+      </div>
+      <div className="flex items-center justify-between">
+        <span className="text-gray-400">혼잡 단계</span>
+        <span className={`font-semibold ${level.text}`}>{level.label} ({percent ?? '-'}%)</span>
+      </div>
+      <div className="flex items-center justify-between">
+        <span className="text-gray-400">데이터 상태</span>
+        <span className="text-gray-600">{online ? '실시간 연결 중' : '오프라인 (최근 데이터)'}</span>
+      </div>
+    </div>
+  )
+}
+
 export default function ZoneDetailPage() {
   const { zoneId } = useParams()
   const navigate = useNavigate()
@@ -140,6 +177,7 @@ export default function ZoneDetailPage() {
   const [performances, setPerformances] = useState([])
   const [booths, setBooths] = useState([])
   const [events, setEvents] = useState([])
+  const [showCrowdDetail, setShowCrowdDetail] = useState(false)
 
   const zone = zones.find(z => String(z.zone_id) === String(zoneId))
   const zoneType = zone?.zones?.type
@@ -174,57 +212,42 @@ export default function ZoneDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <MobileHeader title={info.name} />
+      <MobileHeader titlePill={{ label: info.name, dot: level.dot }} />
 
       <main className="max-w-xl mx-auto px-4 py-5 flex flex-col gap-4">
-        <div className={`rounded-2xl border-2 ${level.border} ${level.bg} p-5`}>
-          <div className="flex justify-between items-start mb-3">
-            <div>
-              <h2 className={`text-xl font-bold ${level.text}`}>{info.name}</h2>
-              <p className="text-sm text-gray-500 mt-0.5">
-                {zoneType === 'stage' ? (nowPlaying ? '현재 공연 중' : info.description) : info.description}
-              </p>
-            </div>
-            <StatusBadge level={level} />
-          </div>
-
-          {percent != null && (
-            <>
-              <div className="flex items-center justify-between text-sm mb-1.5">
-                <span className="text-gray-500">👤 현재 인원 {current_count.toLocaleString()} / 수용 {info.max_capacity.toLocaleString()}명</span>
-                <span className={`font-bold ${level.text}`}>{percent}%</span>
-              </div>
-              <div className="w-full bg-white bg-opacity-70 rounded-full h-2.5 mb-3">
-                <div className={`h-2.5 rounded-full ${level.bar} transition-all duration-500`} style={{ width: `${Math.min(percent, 100)}%` }} />
-              </div>
-            </>
-          )}
-
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white bg-opacity-70 text-gray-700">
+        <div className="bg-white rounded-2xl border border-gray-100 p-5">
+          <h2 className="text-xl font-bold text-gray-900">{nowPlaying?.artist ?? info.name}</h2>
+          <p className="text-sm text-gray-500 mt-1">
+            {zoneType === 'stage' ? (nowPlaying ? '공연중' : '공연 없음') : (info.operating_status ?? '운영 정보')}{' '}
+            <span className={`font-semibold ${level.key === 'blocked' ? 'text-red-600' : 'text-green-600'}`}>
               {level.key === 'blocked' ? '입장 불가' : '입장 가능'}
             </span>
-            <span className="text-xs text-gray-400">⏱ 갱신 {lastUpdated ? formatClock(lastUpdated) : '-'}</span>
-          </div>
-        </div>
+          </p>
 
-        <SectionCard>
-          <div className="px-5 py-4 flex items-center justify-between">
-            <p className="text-sm font-bold text-gray-800">정보 갱신 상태</p>
-            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${online ? 'bg-green-50 text-green-600' : 'bg-amber-50 text-amber-600'}`}>
-              {online ? '온라인' : '오프라인'}
-            </span>
-          </div>
-          <div className="px-5 pb-4 -mt-1">
-            <p className="text-sm text-gray-600 flex items-center gap-1.5">
-              <span className={`w-1.5 h-1.5 rounded-full ${online ? 'bg-green-500' : 'bg-amber-500'}`} />
-              혼잡도 및 운영 상태 최종 갱신: {lastUpdated ? formatTime(lastUpdated) : '정보 없음'}
-            </p>
-            <p className="text-xs text-gray-400 mt-1">
-              {online ? '실시간 연결 중 · 정보가 최신 상태입니다.' : '오프라인 상태 · 최신 정보가 아닐 수 있습니다.'}
-            </p>
-          </div>
-        </SectionCard>
+          <CongestionBar percent={percent} level={level} />
+
+          <p className="text-xs text-gray-400 text-right -mt-1">
+            {online ? `최종 갱신 ${lastUpdated ? formatTime(lastUpdated) : '-'}` : '오프라인 · 최근 데이터'}
+          </p>
+
+          {zoneType === 'stage' && (
+            <div className="grid grid-cols-2 gap-2 mt-4">
+              <button
+                onClick={() => setShowCrowdDetail(v => !v)}
+                className="rounded-xl py-3 font-bold text-sm bg-gray-50 text-gray-600"
+              >
+                대기 현장 보기
+              </button>
+              <NotifyButton startTime={nowPlaying ? undefined : performances[0]?.start_time} />
+            </div>
+          )}
+
+          {showCrowdDetail && (
+            <div className="mt-3">
+              <CrowdDetail zone={zone} level={level} percent={percent} online={online} />
+            </div>
+          )}
+        </div>
 
         <LocationCard description={info.location_desc ?? info.description} />
 
@@ -242,7 +265,7 @@ export default function ZoneDetailPage() {
           <div className="flex flex-col gap-2 pt-1">
             <button
               onClick={() => navigate(`/route/${zoneId}`)}
-              className="w-full bg-gray-900 text-white rounded-xl py-3.5 font-bold text-sm hover:bg-gray-800 transition"
+              className="w-full bg-brand-500 text-white rounded-xl py-3.5 font-bold text-sm hover:bg-brand-600 transition"
             >
               현재 위치에서 경로 안내
             </button>

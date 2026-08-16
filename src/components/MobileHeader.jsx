@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
-export default function MobileHeader({ title, showBack = true, right = null }) {
+export default function MobileHeader({ title, titlePill, showBack = true, right = null }) {
   const navigate = useNavigate()
 
   return (
@@ -17,7 +17,16 @@ export default function MobileHeader({ title, showBack = true, right = null }) {
         ) : (
           <span className="w-6" />
         )}
-        <h1 className="flex-1 text-center text-base font-bold text-gray-900 truncate">{title}</h1>
+        <div className="flex-1 flex justify-center">
+          {titlePill ? (
+            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-50 text-sm font-bold text-gray-900 truncate`}>
+              <span className={`w-2 h-2 rounded-full ${titlePill.dot}`} />
+              {titlePill.label}
+            </span>
+          ) : (
+            <h1 className="text-base font-bold text-gray-900 truncate">{title}</h1>
+          )}
+        </div>
         <div className="w-6 flex justify-end">{right}</div>
       </div>
     </header>

@@ -24,7 +24,7 @@ export default function EventEndedPage() {
         <div className="w-full flex flex-col gap-2 mt-4">
           <button
             onClick={() => navigate('/')}
-            className="w-full bg-gray-900 text-white rounded-xl py-3 font-bold text-sm"
+            className="w-full bg-brand-500 text-white rounded-xl py-3 font-bold text-sm hover:bg-brand-600 transition"
           >
             다른 행사 찾기
           </button>

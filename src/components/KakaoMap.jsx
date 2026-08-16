@@ -11,40 +11,33 @@ const DOT_COLOR = {
   unknown: '#9ca3af',
 }
 
-function buildIcon(zone) {
+function buildIcon(zone, selected) {
   const level = getLevel({ current: zone.current_count, max: zone.zones.max_capacity, entryBlocked: zone.entry_blocked })
   const color = DOT_COLOR[level.key]
 
+  const pill = selected
+    ? `background:${color};color:white;border:2px solid white;`
+    : `background:white;color:#0f172a;border:1px solid rgba(0,0,0,0.08);`
+
+  const dot = selected ? '' : `<span style="width:7px;height:7px;border-radius:999px;background:${color};flex-shrink:0;"></span>`
+
   return L.divIcon({
-    html: `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
-      <div style="
-        background:${color};
-        color:white;
-        width:48px;height:48px;
-        border-radius:50%;
-        display:flex;align-items:center;justify-content:center;
-        box-shadow:0 2px 8px rgba(0,0,0,0.25);
-        cursor:pointer;
-        border:2.5px solid white;
-        line-height:1.2;
-      ">
-        <span style="font-size:10px;font-weight:600;opacity:0.95">${level.label}</span>
-      </div>
-      <div style="
-        background:rgba(15,23,42,0.75);
-        color:white;
-        font-size:11px;font-weight:700;
-        padding:2px 8px;
-        border-radius:10px;
-        white-space:nowrap;
-      ">${zone.zones.name}</div>
-    </div>`,
+    html: `<div style="
+      display:inline-flex;align-items:center;gap:5px;
+      ${pill}
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:12px;font-weight:700;
+      white-space:nowrap;
+      box-shadow:0 2px 6px rgba(0,0,0,0.15);
+      cursor:pointer;
+    ">${dot}${zone.zones.name}</div>`,
     className: '',
-    iconAnchor: [24, 24],
+    iconAnchor: [selected ? 40 : 30, 14],
   })
 }
 
-const FestivalMap = forwardRef(function FestivalMap({ zones, onSelectZone }, ref) {
+const FestivalMap = forwardRef(function FestivalMap({ zones, selectedId, onSelectZone }, ref) {
   const mapRef = useRef(null)
   const mapInstanceRef = useRef(null)
 
@@ -73,11 +66,9 @@ const FestivalMap = forwardRef(function FestivalMap({ zones, onSelectZone }, ref
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap',
     }).addTo(map)
-
-    L.control.zoom({ position: 'bottomright' }).addTo(map)
   }, [zones])
 
-  // 마커 갱신 (최초 렌더 + 혼잡도 변경 시)
+  // 마커 갱신 (최초 렌더 + 혼잡도 변경 + 선택 상태 변경 시)
   useEffect(() => {
     const map = mapInstanceRef.current
     if (!map) return
@@ -89,10 +80,11 @@ const FestivalMap = forwardRef(function FestivalMap({ zones, onSelectZone }, ref
     zones.forEach(zone => {
       const { lat, lng } = zone.zones
       if (!lat || !lng) return
-      const marker = L.marker([lat, lng], { icon: buildIcon(zone) }).addTo(map)
+      const selected = zone.id === selectedId
+      const marker = L.marker([lat, lng], { icon: buildIcon(zone, selected), zIndexOffset: selected ? 1000 : 0 }).addTo(map)
       marker.on('click', () => onSelectZone(zone))
     })
-  }, [zones, onSelectZone])
+  }, [zones, selectedId, onSelectZone])
 
   return <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
 })
