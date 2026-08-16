@@ -5,7 +5,7 @@ import { useCongestion } from '../hooks/useCongestion'
 import MobileHeader from '../components/MobileHeader'
 import SectionCard from '../components/SectionCard'
 import CongestionBar from '../components/CongestionBar'
-import { getLevel, getPercent } from '../lib/congestion'
+import { getLevel, getPercent, getAvailabilityLabel } from '../lib/congestion'
 import { formatTime, isNowPlaying } from '../lib/format'
 
 function durationLabel(start, end) {
@@ -220,7 +220,7 @@ export default function ZoneDetailPage() {
           <p className="text-sm text-gray-500 mt-1">
             {zoneType === 'stage' ? (nowPlaying ? '공연중' : '공연 없음') : (info.operating_status ?? '운영 정보')}{' '}
             <span className={`font-semibold ${level.key === 'blocked' ? 'text-red-600' : 'text-green-600'}`}>
-              {level.key === 'blocked' ? '입장 불가' : '입장 가능'}
+              {getAvailabilityLabel(level, zoneType)}
             </span>
           </p>
 

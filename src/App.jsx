@@ -28,6 +28,14 @@ export default function App() {
     [zones, filter]
   )
 
+  // 필터를 바꾸거나 데이터를 처음 불러왔을 때만 화면을 맞춰준다.
+  // zones/filtered를 deps에 넣으면 폴링될 때마다 지도가 흔들려서 의도적으로 뺌.
+  useEffect(() => {
+    if (loading) return
+    mapRef.current?.fitToZones(filter === 'all' ? zones : zones.filter(z => z.zones.type === filter))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filter, loading])
+
   useEffect(() => {
     if (!selectedZone || selectedZone.zones.type !== 'stage') return
     supabase

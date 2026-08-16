@@ -19,6 +19,12 @@ export function getPercent(current, max) {
   return Math.round((current / max) * 100)
 }
 
+// 공연장은 "입장 가능/불가", 그 외 편의시설(F&B/이벤트/화장실)은 "이용 가능/불가"로 표현
+export function getAvailabilityLabel(level, zoneType) {
+  if (zoneType === 'stage') return level.key === 'blocked' ? '입장 불가' : '입장 가능'
+  return level.key === 'blocked' ? '이용 불가' : '이용 가능'
+}
+
 // entryBlocked: 관리자가 입장불가로 확정한 경우에만 blocked로 표시(명세 4.1.2)
 export function getLevel({ current, max, manualStatus, entryBlocked }) {
   if (manualStatus && LEVELS[manualStatus]) return { key: manualStatus, ...LEVELS[manualStatus] }

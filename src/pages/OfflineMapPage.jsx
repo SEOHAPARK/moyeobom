@@ -7,7 +7,7 @@ import { formatTime } from '../lib/format'
 const LEGEND = ['relaxed', 'normal', 'crowded', 'blocked']
 
 export default function OfflineMapPage() {
-  const { zones, lastUpdated } = useCongestion()
+  const { zones, lastUpdated, online } = useCongestion()
 
   const stageZones = zones.filter(z => z.zones.type === 'stage')
   const facilityZones = zones.filter(z => z.zones.type !== 'stage')
@@ -17,13 +17,23 @@ export default function OfflineMapPage() {
       <MobileHeader title="오프라인 캐시 지도" />
 
       <main className="max-w-xl mx-auto px-4 py-5 flex flex-col gap-4">
-        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-sm">
-          <div className="flex items-center justify-between font-semibold text-amber-700">
-            <span>⚠ 오프라인 상태</span>
-            <span className="text-xs font-normal text-amber-600">마지막 갱신 {lastUpdated ? formatTime(lastUpdated) : '-'}</span>
+        {online ? (
+          <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-sm">
+            <div className="flex items-center justify-between font-semibold text-gray-600">
+              <span>🟢 온라인 상태</span>
+              <span className="text-xs font-normal text-gray-400">최종 갱신 {lastUpdated ? formatTime(lastUpdated) : '-'}</span>
+            </div>
+            <p className="text-gray-400 text-xs mt-1">현재는 정상적으로 연결되어 있습니다. 아래는 연결이 끊겼을 때 표시되는 캐시 화면 미리보기입니다.</p>
           </div>
-          <p className="text-amber-600 text-xs mt-1">저장된 지도 정보를 표시 중입니다. 실시간 혼잡도가 반영되지 않을 수 있습니다.</p>
-        </div>
+        ) : (
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-sm">
+            <div className="flex items-center justify-between font-semibold text-amber-700">
+              <span>⚠ 오프라인 상태</span>
+              <span className="text-xs font-normal text-amber-600">마지막 갱신 {lastUpdated ? formatTime(lastUpdated) : '-'}</span>
+            </div>
+            <p className="text-amber-600 text-xs mt-1">저장된 지도 정보를 표시 중입니다. 실시간 혼잡도가 반영되지 않을 수 있습니다.</p>
+          </div>
+        )}
 
         <div className="border border-dashed border-gray-200 rounded-2xl h-64 bg-white flex items-center justify-center text-gray-300 text-sm">
           Image
