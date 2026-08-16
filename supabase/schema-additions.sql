@@ -33,12 +33,15 @@ create table if not exists status_change_log (
 alter table status_change_log enable row level security;
 
 -- 관리자(인증된 사용자)만 읽기/쓰기 가능하도록 기본 정책 예시
-create policy if not exists "authenticated read status_change_log"
+-- (Postgres는 CREATE POLICY IF NOT EXISTS를 지원하지 않아 DROP 후 재생성)
+drop policy if exists "authenticated read status_change_log" on status_change_log;
+create policy "authenticated read status_change_log"
   on status_change_log for select
   to authenticated
   using (true);
 
-create policy if not exists "authenticated insert status_change_log"
+drop policy if exists "authenticated insert status_change_log" on status_change_log;
+create policy "authenticated insert status_change_log"
   on status_change_log for insert
   to authenticated
   with check (true);
