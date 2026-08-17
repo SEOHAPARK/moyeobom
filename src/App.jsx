@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ArrowDownTrayIcon, ViewfinderCircleIcon } from '@heroicons/react/24/outline'
 import FestivalMap from './components/KakaoMap'
 import MapInfoBar from './components/MapInfoBar'
 import Logo from './components/Logo'
@@ -71,17 +72,17 @@ export default function App() {
 
       {/* 상단 브랜드 + 필터 오버레이 */}
       <div className="absolute top-4 left-4 right-4 z-[900] flex items-center gap-2">
-        <div className="shrink-0 bg-white/90 backdrop-blur rounded-full pl-1.5 pr-3 py-1 flex items-center gap-1.5 shadow">
+        <div className="shrink-0 h-11 bg-white/90 backdrop-blur rounded-full pl-2 pr-3.5 flex items-center gap-1.5 shadow">
           <Logo size={22} />
-          <span className="font-bold text-sm text-gray-900">모여봄</span>
+          <span className="font-heading font-bold text-sm text-gray-900">모여봄</span>
         </div>
         <div className="flex-1 flex gap-1.5 overflow-x-auto">
           {FILTERS.map(f => (
             <button
               key={f.key}
               onClick={() => setFilter(f.key)}
-              className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow ${
-                filter === f.key ? 'bg-brand-500 text-white' : 'bg-white/90 backdrop-blur text-gray-600'
+              className={`shrink-0 h-11 px-4 rounded-full text-xs font-semibold whitespace-nowrap shadow cursor-pointer transition-colors ${
+                filter === f.key ? 'bg-brand-500 text-white' : 'bg-white/90 backdrop-blur text-gray-600 hover:text-gray-900'
               }`}
             >
               {f.label}
@@ -98,16 +99,16 @@ export default function App() {
         <button
           onClick={() => navigate('/offline')}
           aria-label="오프라인 캐시 지도"
-          className="w-11 h-11 rounded-full bg-white shadow flex items-center justify-center text-gray-500"
+          className="w-11 h-11 rounded-full bg-white shadow flex items-center justify-center text-gray-500 hover:text-gray-800 cursor-pointer transition-colors"
         >
-          ⇩
+          <ArrowDownTrayIcon className="w-5 h-5" aria-hidden="true" />
         </button>
         <button
           onClick={() => mapRef.current?.locate()}
           aria-label="현재 위치"
-          className="w-11 h-11 rounded-full bg-white shadow flex items-center justify-center text-gray-700 text-lg"
+          className="w-11 h-11 rounded-full bg-white shadow flex items-center justify-center text-gray-700 hover:text-brand-600 cursor-pointer transition-colors"
         >
-          ⌖
+          <ViewfinderCircleIcon className="w-5 h-5" aria-hidden="true" />
         </button>
       </div>
 

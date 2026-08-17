@@ -90,11 +90,11 @@ export default function AdminCongestionPage() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h1 className="text-lg font-bold text-gray-900">공연장별 혼잡도 현황</h1>
-          <button onClick={() => setShowInfo(true)} className="text-xs text-gray-400 underline underline-offset-2">
+          <button onClick={() => setShowInfo(true)} className="text-xs text-gray-400 underline underline-offset-2 cursor-pointer hover:text-gray-600">
             혼잡도 상태 안내
           </button>
         </div>
-        <Link to="/admin/zones" className="text-sm font-semibold bg-gray-900 text-white px-4 py-2 rounded-lg">
+        <Link to="/admin/zones" className="text-sm font-semibold bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer px-4 py-2 rounded-lg">
           수용인원 입력
         </Link>
       </div>
@@ -114,7 +114,7 @@ export default function AdminCongestionPage() {
               key={o.key}
               onClick={() => setFilter(o.key)}
               className={`px-4 py-1.5 rounded-full text-sm font-semibold border ${
-                filter === o.key ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-500 border-gray-200'
+                filter === o.key ? 'bg-brand-500 text-white border-brand-500' : 'bg-white text-gray-500 border-gray-200'
               }`}
             >
               {o.label}
@@ -150,7 +150,7 @@ export default function AdminCongestionPage() {
                 <td className="px-6 py-3.5 text-gray-600">{z.manual_status || z.entry_blocked ? '적용 중' : '-'}</td>
                 <td className="px-6 py-3.5 text-gray-400">{lastUpdated ? formatTime(lastUpdated) : '-'}</td>
                 <td className="px-6 py-3.5">
-                  <button onClick={() => setStatusModalZone(z)} className="text-gray-700 underline underline-offset-2 font-medium">
+                  <button onClick={() => setStatusModalZone(z)} className="text-gray-700 underline underline-offset-2 font-medium cursor-pointer hover:text-brand-600">
                     상태 변경
                   </button>
                 </td>
@@ -184,9 +184,9 @@ export default function AdminCongestionPage() {
                     </button>
                   )}
                   {z.entry_blocked && (
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-gray-900 text-white">입장 불가</span>
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-red-600 text-white">입장 불가</span>
                   )}
-                  <button onClick={() => setStatusModalZone(z)} className="text-xs text-gray-400 underline underline-offset-2">
+                  <button onClick={() => setStatusModalZone(z)} className="text-xs text-gray-400 underline underline-offset-2 cursor-pointer hover:text-gray-600">
                     상태 변경
                   </button>
                 </div>
@@ -270,7 +270,7 @@ function StatusChangeModal({ zone, changedBy, onClose, onSaved }) {
         <p className="text-sm text-gray-600">수동으로 변경한 상태는 자동 산정값보다 우선 적용됩니다. 계속하시겠습니까?</p>
         <div className="flex justify-end gap-2 mt-5">
           <button onClick={() => setConfirming(false)} className="border border-gray-200 rounded-lg px-4 py-2 text-sm font-semibold text-gray-700">취소</button>
-          <button onClick={handleSave} disabled={saving} className="bg-gray-900 text-white rounded-lg px-4 py-2 text-sm font-semibold disabled:opacity-50">
+          <button onClick={handleSave} disabled={saving} className="bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold disabled:opacity-50">
             {saving ? '저장 중...' : '저장'}
           </button>
         </div>
@@ -309,7 +309,7 @@ function StatusChangeModal({ zone, changedBy, onClose, onSaved }) {
           <select
             value={status}
             onChange={e => setStatus(e.target.value)}
-            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-gray-400"
+            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-500"
           >
             <option value="">Select...</option>
             {Object.entries(LEVELS).filter(([k]) => k !== 'unknown').map(([k, v]) => (
@@ -325,7 +325,7 @@ function StatusChangeModal({ zone, changedBy, onClose, onSaved }) {
             value={reason}
             onChange={e => setReason(e.target.value)}
             placeholder="변경 사유를 입력하세요"
-            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-gray-400 resize-none"
+            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-500 resize-none"
           />
           <p className="text-xs text-gray-400 mt-1">변경 사유는 상태 변경 이력에 기록되며 운영자가 확인할 수 있습니다.</p>
         </div>
@@ -336,7 +336,7 @@ function StatusChangeModal({ zone, changedBy, onClose, onSaved }) {
         <button
           onClick={() => setConfirming(true)}
           disabled={!status || !reason.trim()}
-          className="bg-gray-900 text-white rounded-lg px-4 py-2 text-sm font-semibold disabled:opacity-40"
+          className="bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold disabled:opacity-40"
         >
           저장
         </button>
@@ -375,15 +375,15 @@ function EntryBlockedModal({ zone, onCancel, onConfirm }) {
           rows={3}
           value={reason}
           onChange={e => setReason(e.target.value)}
-          className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-gray-400 resize-none"
+          className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-brand-500 resize-none"
         />
       </div>
       <div className="flex justify-end gap-2 mt-5">
-        <button onClick={onCancel} className="border border-gray-200 rounded-lg px-4 py-2 text-sm font-semibold text-gray-700">취소</button>
+        <button onClick={onCancel} className="min-h-11 border border-gray-200 rounded-lg px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 cursor-pointer transition-colors">취소</button>
         <button
           onClick={handleConfirm}
           disabled={saving || !reason.trim()}
-          className="bg-red-200 text-red-800 rounded-lg px-4 py-2 text-sm font-semibold disabled:opacity-40"
+          className="min-h-11 bg-red-600 text-white rounded-lg px-4 py-2 text-sm font-semibold hover:bg-red-700 disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed transition-colors"
         >
           {saving ? '처리 중...' : '입장 불가 처리'}
         </button>
@@ -401,7 +401,7 @@ function CongestionInfoModal({ onClose }) {
         <p>개인 식별 정보나 카메라 영상은 어떤 화면에도 표시되지 않으며, 집계된 혼잡도 수치만 사용됩니다.</p>
       </div>
       <div className="flex justify-end mt-5">
-        <button onClick={onClose} className="bg-gray-900 text-white rounded-lg px-4 py-2 text-sm font-semibold">확인</button>
+        <button onClick={onClose} className="bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold">확인</button>
       </div>
     </Modal>
   )

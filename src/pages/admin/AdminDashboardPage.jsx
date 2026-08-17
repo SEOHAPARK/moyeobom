@@ -68,7 +68,7 @@ export default function AdminDashboardPage() {
           </tbody>
         </table>
         <div className="px-6 py-4 flex justify-end">
-          <Link to="/admin/congestion" className="text-sm font-semibold bg-gray-900 text-white px-4 py-2 rounded-lg">
+          <Link to="/admin/congestion" className="text-sm font-semibold bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer px-4 py-2 rounded-lg">
             공연장별 혼잡도 현황 전체 보기
           </Link>
         </div>
@@ -77,7 +77,7 @@ export default function AdminDashboardPage() {
       <div>
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-bold text-gray-800">편의시설별 상태 및 혼잡도</h2>
-          <Link to="/admin/facilities" className="text-sm font-semibold bg-gray-900 text-white px-4 py-2 rounded-lg">
+          <Link to="/admin/facilities" className="text-sm font-semibold bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer px-4 py-2 rounded-lg">
             편의시설 관리
           </Link>
         </div>

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { MapIcon, MapPinIcon, BellIcon, UsersIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
+import { BellAlertIcon } from '@heroicons/react/24/solid'
 import { supabase } from '../lib/supabase'
 import { useCongestion } from '../hooks/useCongestion'
 import MobileHeader from '../components/MobileHeader'
@@ -115,10 +117,14 @@ function LocationCard({ description }) {
   return (
     <SectionCard title="위치 정보">
       <div className="px-5 pb-5 pt-1">
-        <div className="border border-dashed border-gray-200 rounded-xl h-36 flex items-center justify-center text-gray-300 text-sm mb-3">
+        <div className="border border-dashed border-gray-200 rounded-xl h-36 flex flex-col items-center justify-center gap-1 text-gray-300 text-sm mb-3">
+          <MapIcon className="w-7 h-7" aria-hidden="true" />
           Image
         </div>
-        <p className="text-sm text-gray-500">📍 {description || '위치 정보가 등록되지 않았습니다'}</p>
+        <p className="text-sm text-gray-500 flex items-center gap-1.5">
+          <MapPinIcon className="w-4 h-4 shrink-0 text-gray-400" aria-hidden="true" />
+          {description || '위치 정보가 등록되지 않았습니다'}
+        </p>
       </div>
     </SectionCard>
   )
@@ -142,11 +148,16 @@ function NotifyButton({ startTime }) {
   return (
     <button
       onClick={toggle}
-      className={`rounded-xl py-3 font-bold text-sm transition ${
-        subscribed ? 'bg-brand-50 text-brand-600 border border-brand-500' : 'bg-gray-50 text-gray-500'
+      className={`min-h-11 rounded-xl py-2.5 font-bold text-sm transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${
+        subscribed ? 'bg-brand-50 text-brand-600 border border-brand-500' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
       }`}
     >
-      {subscribed ? `알림 설정됨${startTime ? ` (${startTime})` : ''}` : '알림 받기'}
+      {subscribed ? (
+        <BellAlertIcon className="w-4 h-4 shrink-0" aria-hidden="true" />
+      ) : (
+        <BellIcon className="w-4 h-4 shrink-0" aria-hidden="true" />
+      )}
+      <span className="truncate">{subscribed ? `설정됨${startTime ? ` (${startTime})` : ''}` : '알림 받기'}</span>
     </button>
   )
 }
@@ -216,7 +227,7 @@ export default function ZoneDetailPage() {
 
       <main className="max-w-xl mx-auto px-4 py-5 flex flex-col gap-4">
         <div className="bg-white rounded-2xl border border-gray-100 p-5">
-          <h2 className="text-xl font-bold text-gray-900">{nowPlaying?.artist ?? info.name}</h2>
+          <h2 className="font-heading text-xl font-bold text-gray-900">{nowPlaying?.artist ?? info.name}</h2>
           <p className="text-sm text-gray-500 mt-1">
             {zoneType === 'stage' ? (nowPlaying ? '공연중' : '공연 없음') : (info.operating_status ?? '운영 정보')}{' '}
             <span className={`font-semibold ${level.key === 'blocked' ? 'text-red-600' : 'text-green-600'}`}>
@@ -234,9 +245,11 @@ export default function ZoneDetailPage() {
             <div className="grid grid-cols-2 gap-2 mt-4">
               <button
                 onClick={() => setShowCrowdDetail(v => !v)}
-                className="rounded-xl py-3 font-bold text-sm bg-gray-50 text-gray-600"
+                aria-expanded={showCrowdDetail}
+                className="min-h-11 rounded-xl py-2.5 font-bold text-sm bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
               >
-                대기 현장 보기
+                <UsersIcon className="w-4 h-4 shrink-0" aria-hidden="true" />
+                <span className="truncate">대기 현장 보기</span>
               </button>
               <NotifyButton startTime={nowPlaying ? undefined : performances[0]?.start_time} />
             </div>
@@ -265,13 +278,14 @@ export default function ZoneDetailPage() {
           <div className="flex flex-col gap-2 pt-1">
             <button
               onClick={() => navigate(`/route/${zoneId}`)}
-              className="w-full bg-brand-500 text-white rounded-xl py-3.5 font-bold text-sm hover:bg-brand-600 transition"
+              className="w-full bg-brand-500 text-white rounded-xl py-3.5 font-bold text-sm hover:bg-brand-600 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
             >
               현재 위치에서 경로 안내
+              <ArrowRightIcon className="w-4 h-4 shrink-0" aria-hidden="true" />
             </button>
             <button
               onClick={() => navigate(`/route/${zoneId}/origin`)}
-              className="text-center text-sm text-gray-400 underline underline-offset-2 py-1"
+              className="min-h-11 text-center text-sm text-gray-400 underline underline-offset-2 hover:text-gray-600 cursor-pointer"
             >
               출발지 직접 설정
             </button>

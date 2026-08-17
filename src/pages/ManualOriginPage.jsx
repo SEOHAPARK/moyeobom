@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import MobileHeader from '../components/MobileHeader'
 
 const NEARBY = ['공연장 입구', '주차장', '정문']
@@ -24,12 +25,12 @@ export default function ManualOriginPage() {
 
       <main className="max-w-xl mx-auto px-4 py-5 flex flex-col gap-5">
         <div>
-          <h2 className="text-lg font-bold text-gray-900">출발지 설정</h2>
+          <h2 className="font-heading text-lg font-bold text-gray-900">출발지 설정</h2>
           <p className="text-sm text-gray-400 mt-1">현재 위치를 찾을 수 없어 출발지를 직접 입력해주세요</p>
         </div>
 
-        <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-3 py-2.5">
-          <span className="text-gray-400">🔍</span>
+        <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-3 h-11 focus-within:border-brand-500 transition-colors">
+          <MagnifyingGlassIcon className="w-4.5 h-4.5 text-gray-400 shrink-0" aria-hidden="true" />
           <input
             value={query}
             onChange={e => setQuery(e.target.value)}
@@ -45,8 +46,8 @@ export default function ManualOriginPage() {
               <button
                 key={n}
                 onClick={() => { setSelected(n); setManual('') }}
-                className={`text-left px-4 py-3 rounded-xl border text-sm font-medium ${
-                  selected === n ? 'border-brand-500 bg-brand-500 text-white' : 'border-gray-200 bg-white text-gray-700'
+                className={`min-h-11 text-left px-4 py-3 rounded-xl border text-sm font-medium cursor-pointer transition-colors ${
+                  selected === n ? 'border-brand-500 bg-brand-500 text-white' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
                 }`}
               >
                 {n}
@@ -62,21 +63,21 @@ export default function ManualOriginPage() {
             value={manual}
             onChange={e => { setManual(e.target.value); setSelected(null) }}
             rows={3}
-            className="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-gray-400 resize-none"
+            className="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-brand-500 resize-none"
           />
         </div>
 
         <div className="flex gap-2 justify-end pt-2">
           <button
             onClick={() => navigate(-1)}
-            className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-700"
+            className="min-h-11 px-5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-50 cursor-pointer transition-colors"
           >
             취소
           </button>
           <button
             onClick={handleSubmit}
             disabled={!origin}
-            className="px-5 py-2.5 rounded-xl bg-brand-500 text-white text-sm font-semibold disabled:opacity-40 hover:bg-brand-600 transition"
+            className="min-h-11 px-5 rounded-xl bg-brand-500 text-white text-sm font-semibold disabled:opacity-40 hover:bg-brand-600 cursor-pointer disabled:cursor-not-allowed transition-colors"
           >
             출발지 설정
           </button>

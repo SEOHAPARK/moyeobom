@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { ExclamationTriangleIcon, MapIcon } from '@heroicons/react/24/outline'
 import MobileHeader from '../components/MobileHeader'
 import { useCongestion } from '../hooks/useCongestion'
 import { formatTime } from '../lib/format'
@@ -64,7 +65,8 @@ export default function RoutePage() {
       <MobileHeader title="도보 경로 안내" />
 
       <main className="max-w-xl mx-auto px-4 py-5 flex flex-col gap-4">
-        <div className="border border-dashed border-gray-200 rounded-2xl h-72 bg-white flex items-center justify-center text-gray-300 text-sm">
+        <div className="border border-dashed border-gray-200 rounded-2xl h-72 bg-white flex flex-col items-center justify-center gap-1.5 text-gray-300 text-sm">
+          <MapIcon className="w-8 h-8" aria-hidden="true" />
           Image
         </div>
 
@@ -80,7 +82,8 @@ export default function RoutePage() {
         </div>
 
         {status === 'denied' && (
-          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 text-sm text-amber-700">
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 text-sm text-amber-700 flex items-start gap-2">
+            <ExclamationTriangleIcon className="w-5 h-5 shrink-0 mt-0.5" aria-hidden="true" />
             위치 권한을 확인할 수 없습니다. 출발지를 직접 설정해주세요.
           </div>
         )}
@@ -89,11 +92,11 @@ export default function RoutePage() {
           <div className="bg-white rounded-2xl border border-gray-100 p-5 flex items-center justify-between text-sm">
             <div>
               <p className="text-gray-400 mb-1">예상 소요 시간</p>
-              <p className="text-lg font-bold text-gray-900">도보 약 {minutes}분</p>
+              <p className="font-heading text-lg font-bold text-gray-900">도보 약 {minutes}분</p>
             </div>
             <div className="text-right">
               <p className="text-gray-400 mb-1">거리</p>
-              <p className="text-lg font-bold text-gray-900">{distance}m</p>
+              <p className="font-heading text-lg font-bold text-gray-900">{distance}m</p>
             </div>
           </div>
         )}
@@ -108,7 +111,7 @@ export default function RoutePage() {
 
         <button
           onClick={() => navigate(`/route/${zoneId}/origin`)}
-          className="w-full border border-gray-200 rounded-xl py-3 font-semibold text-sm text-gray-700"
+          className="w-full min-h-11 border border-gray-200 rounded-xl py-3 font-semibold text-sm text-gray-700 hover:bg-gray-50 cursor-pointer transition-colors"
         >
           출발지 직접 설정하기
         </button>

@@ -40,7 +40,7 @@ export default function AdminLoginPage() {
               required
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="mt-1 w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-gray-400"
+              className="mt-1 w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-500"
             />
           </div>
           <div>
@@ -50,7 +50,7 @@ export default function AdminLoginPage() {
               required
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="mt-1 w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-gray-400"
+              className="mt-1 w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-500"
             />
           </div>
 
@@ -59,7 +59,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="bg-gray-900 text-white rounded-xl py-2.5 font-semibold text-sm disabled:opacity-50"
+            className="bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer rounded-xl py-2.5 font-semibold text-sm disabled:opacity-50"
           >
             {submitting ? '로그인 중...' : '로그인'}
           </button>

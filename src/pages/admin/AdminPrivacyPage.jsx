@@ -77,7 +77,7 @@ export default function AdminPrivacyPage() {
         <button onClick={() => navigate(-1)} className="border border-gray-200 rounded-lg px-4 py-2 text-sm font-semibold text-gray-700">
           취소
         </button>
-        <button onClick={() => navigate('/admin')} className="bg-gray-900 text-white rounded-lg px-4 py-2 text-sm font-semibold">
+        <button onClick={() => navigate('/admin')} className="bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold">
           확인 및 닫기
         </button>
       </div>
