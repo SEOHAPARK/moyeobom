@@ -7,9 +7,13 @@
 @import "./styles/tokens/shadow.css";
 @import "./styles/tokens/motion.css";
 @import "./styles/tokens/layout.css";
-@import "./styles/tokens/base.css";
 
 @import "tailwindcss";
+
+/* base.css는 a/body/img 등 엘리먼트 셀렉터 규칙을 담고 있어 반드시 Tailwind의 base 레이어
+   안으로 넣어야 한다 — 레이어 밖(unlayered) CSS는 명시성과 무관하게 어떤 레이어보다도 우선순위가
+   높아서, text-white 같은 유틸리티 클래스를 이겨버리고 밝은 배경 버튼의 글자를 안 보이게 만든다. */
+@import "./styles/tokens/base.css" layer(base);
 
 /* Tailwind 유틸리티(bg-brand-600, rounded-lg, font-sans 등)가 위 토큰과 동일한 값을 쓰도록 매핑.
    gray-* 는 디자인 시스템에 없는 이름이라 ink 스케일로 치환해, 기존 코드의 bg-gray-100 등이

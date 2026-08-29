@@ -82,7 +82,7 @@ export default function AdminZoneCapacityPage() {
         {error && <p className="text-sm text-blocked-600 mt-2">{error}</p>}
 
         <div className="flex justify-end gap-2 mt-4">
-          <Link to="/admin/congestion" className="border border-gray-200 rounded-lg px-4 py-2 text-sm font-semibold text-gray-700">
+          <Link to="/admin/congestion" className="border border-gray-200 rounded-lg px-4 py-2 text-sm font-semibold text-gray-700 no-underline">
             공연장 혼잡도 현황으로
           </Link>
           <button type="submit" disabled={saving} className="bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold disabled:opacity-50">

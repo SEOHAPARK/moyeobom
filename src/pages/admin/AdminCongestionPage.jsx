@@ -95,7 +95,7 @@ export default function AdminCongestionPage() {
             혼잡도 상태 안내
           </button>
         </div>
-        <Link to="/admin/zones" className="text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer px-4 py-2 rounded-lg">
+        <Link to="/admin/zones" className="text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer px-4 py-2 rounded-lg no-underline">
           수용인원 입력
         </Link>
       </div>

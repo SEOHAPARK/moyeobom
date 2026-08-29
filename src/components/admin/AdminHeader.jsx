@@ -6,7 +6,7 @@ export default function AdminHeader({ authed, onLogout }) {
   return (
     <header className="bg-white border-b border-gray-100">
       <div className="px-6 h-14 flex items-center gap-6">
-        <Link to="/admin" className="flex items-center gap-2 font-heading font-bold text-gray-900 cursor-pointer">
+        <Link to="/admin" className="flex items-center gap-2 font-heading font-bold text-gray-900 cursor-pointer no-underline">
           <Logo size={22} />
           모여봄
         </Link>

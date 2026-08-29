@@ -68,7 +68,7 @@ export default function AdminDashboardPage() {
           </tbody>
         </table>
         <div className="px-6 py-4 flex justify-end">
-          <Link to="/admin/congestion" className="text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer px-4 py-2 rounded-lg">
+          <Link to="/admin/congestion" className="text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer px-4 py-2 rounded-lg no-underline">
             공연장별 혼잡도 현황 전체 보기
           </Link>
         </div>
@@ -77,7 +77,7 @@ export default function AdminDashboardPage() {
       <div>
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-bold text-gray-800">편의시설별 상태 및 혼잡도</h2>
-          <Link to="/admin/facilities" className="text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer px-4 py-2 rounded-lg">
+          <Link to="/admin/facilities" className="text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer px-4 py-2 rounded-lg no-underline">
             편의시설 관리
           </Link>
         </div>
@@ -141,19 +141,19 @@ export default function AdminDashboardPage() {
       <div>
         <h2 className="font-bold text-gray-800 mb-3">관리 기능 바로가기</h2>
         <div className="grid grid-cols-4 gap-4">
-          <Link to="/admin/zones" className="bg-white rounded-2xl border border-gray-100 p-5 hover:border-gray-300">
+          <Link to="/admin/zones" className="bg-white rounded-2xl border border-gray-100 p-5 hover:border-gray-300 no-underline">
             <p className="font-bold text-gray-800">공연장 관리</p>
             <p className="text-xs text-gray-400 mt-1">공연장·수용인원·공연 일정 등록 및 수정</p>
           </Link>
-          <Link to="/admin/facilities" className="bg-white rounded-2xl border border-gray-100 p-5 hover:border-gray-300">
+          <Link to="/admin/facilities" className="bg-white rounded-2xl border border-gray-100 p-5 hover:border-gray-300 no-underline">
             <p className="font-bold text-gray-800">편의시설 관리</p>
             <p className="text-xs text-gray-400 mt-1">F&B·이벤트·화장실 위치 및 운영 정보 관리</p>
           </Link>
-          <Link to="/admin/congestion" className="bg-white rounded-2xl border border-gray-100 p-5 hover:border-gray-300">
+          <Link to="/admin/congestion" className="bg-white rounded-2xl border border-gray-100 p-5 hover:border-gray-300 no-underline">
             <p className="font-bold text-gray-800">공연장별 혼잡도 현황</p>
             <p className="text-xs text-gray-400 mt-1">실시간 혼잡도 및 수동·자동 상태 확인</p>
           </Link>
-          <Link to="/admin/privacy" className="bg-white rounded-2xl border border-gray-100 p-5 hover:border-gray-300">
+          <Link to="/admin/privacy" className="bg-white rounded-2xl border border-gray-100 p-5 hover:border-gray-300 no-underline">
             <p className="font-bold text-gray-800">개인정보 보호 안내</p>
             <p className="text-xs text-gray-400 mt-1">카메라 데이터 처리 목적 및 보호 정책 확인</p>
           </Link>
