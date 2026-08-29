@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
-import { ExclamationTriangleIcon, MapIcon } from '@heroicons/react/24/outline'
+import { Icon } from '../components/ui/Icon'
 import MobileHeader from '../components/MobileHeader'
 import { useCongestion } from '../hooks/useCongestion'
 import { formatTime } from '../lib/format'
@@ -66,7 +66,7 @@ export default function RoutePage() {
 
       <main className="max-w-xl mx-auto px-4 py-5 flex flex-col gap-4">
         <div className="border border-dashed border-gray-200 rounded-2xl h-72 bg-white flex flex-col items-center justify-center gap-1.5 text-gray-300 text-sm">
-          <MapIcon className="w-8 h-8" aria-hidden="true" />
+          <Icon name="map" size={32} />
           Image
         </div>
 
@@ -83,7 +83,7 @@ export default function RoutePage() {
 
         {status === 'denied' && (
           <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 text-sm text-amber-700 flex items-start gap-2">
-            <ExclamationTriangleIcon className="w-5 h-5 shrink-0 mt-0.5" aria-hidden="true" />
+            <Icon name="alert-triangle" size={20} className="shrink-0 mt-0.5" />
             위치 권한을 확인할 수 없습니다. 출발지를 직접 설정해주세요.
           </div>
         )}

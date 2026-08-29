@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowDownTrayIcon, ViewfinderCircleIcon } from '@heroicons/react/24/outline'
+import { Icon } from './components/ui/Icon'
 import FestivalMap from './components/KakaoMap'
 import MapInfoBar from './components/MapInfoBar'
 import Logo from './components/Logo'
@@ -82,7 +82,7 @@ export default function App() {
               key={f.key}
               onClick={() => setFilter(f.key)}
               className={`shrink-0 h-11 px-4 rounded-full text-xs font-semibold whitespace-nowrap shadow cursor-pointer transition-colors ${
-                filter === f.key ? 'bg-brand-500 text-white' : 'bg-white/90 backdrop-blur text-gray-600 hover:text-gray-900'
+                filter === f.key ? 'bg-brand-600 text-white' : 'bg-white/90 backdrop-blur text-gray-600 hover:text-gray-900'
               }`}
             >
               {f.label}
@@ -101,14 +101,14 @@ export default function App() {
           aria-label="오프라인 캐시 지도"
           className="w-11 h-11 rounded-full bg-white shadow flex items-center justify-center text-gray-500 hover:text-gray-800 cursor-pointer transition-colors"
         >
-          <ArrowDownTrayIcon className="w-5 h-5" aria-hidden="true" />
+          <Icon name="download" size={20} />
         </button>
         <button
           onClick={() => mapRef.current?.locate()}
           aria-label="현재 위치"
           className="w-11 h-11 rounded-full bg-white shadow flex items-center justify-center text-gray-700 hover:text-brand-600 cursor-pointer transition-colors"
         >
-          <ViewfinderCircleIcon className="w-5 h-5" aria-hidden="true" />
+          <Icon name="locate-fixed" size={20} />
         </button>
       </div>
 

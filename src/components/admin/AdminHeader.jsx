@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/24/outline'
+import { Icon } from '../ui/Icon'
 import Logo from '../Logo'
 
 export default function AdminHeader({ authed, onLogout }) {
@@ -19,7 +19,7 @@ export default function AdminHeader({ authed, onLogout }) {
               onClick={onLogout}
               className="flex items-center gap-1.5 text-gray-500 hover:text-gray-900 cursor-pointer transition-colors"
             >
-              <ArrowRightStartOnRectangleIcon className="w-4 h-4" aria-hidden="true" />
+              <Icon name="log-out" size={16} />
               로그아웃
             </button>
           ) : (

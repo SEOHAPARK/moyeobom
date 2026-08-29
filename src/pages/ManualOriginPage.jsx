@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import { Icon } from '../components/ui/Icon'
 import MobileHeader from '../components/MobileHeader'
 
 const NEARBY = ['공연장 입구', '주차장', '정문']
@@ -29,8 +29,8 @@ export default function ManualOriginPage() {
           <p className="text-sm text-gray-400 mt-1">현재 위치를 찾을 수 없어 출발지를 직접 입력해주세요</p>
         </div>
 
-        <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-3 h-11 focus-within:border-brand-500 transition-colors">
-          <MagnifyingGlassIcon className="w-4.5 h-4.5 text-gray-400 shrink-0" aria-hidden="true" />
+        <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-3 h-11 focus-within:border-brand-600 transition-colors">
+          <Icon name="search" size={18} className="text-gray-400 shrink-0" />
           <input
             value={query}
             onChange={e => setQuery(e.target.value)}
@@ -47,7 +47,7 @@ export default function ManualOriginPage() {
                 key={n}
                 onClick={() => { setSelected(n); setManual('') }}
                 className={`min-h-11 text-left px-4 py-3 rounded-xl border text-sm font-medium cursor-pointer transition-colors ${
-                  selected === n ? 'border-brand-500 bg-brand-500 text-white' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                  selected === n ? 'border-brand-600 bg-brand-600 text-white' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
                 }`}
               >
                 {n}
@@ -63,7 +63,7 @@ export default function ManualOriginPage() {
             value={manual}
             onChange={e => { setManual(e.target.value); setSelected(null) }}
             rows={3}
-            className="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-brand-500 resize-none"
+            className="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-brand-600 resize-none"
           />
         </div>
 
@@ -77,7 +77,7 @@ export default function ManualOriginPage() {
           <button
             onClick={handleSubmit}
             disabled={!origin}
-            className="min-h-11 px-5 rounded-xl bg-brand-500 text-white text-sm font-semibold disabled:opacity-40 hover:bg-brand-600 cursor-pointer disabled:cursor-not-allowed transition-colors"
+            className="min-h-11 px-5 rounded-xl bg-brand-600 text-white text-sm font-semibold disabled:opacity-40 hover:bg-brand-700 cursor-pointer disabled:cursor-not-allowed transition-colors"
           >
             출발지 설정
           </button>

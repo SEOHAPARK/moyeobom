@@ -68,7 +68,7 @@ export default function AdminDashboardPage() {
           </tbody>
         </table>
         <div className="px-6 py-4 flex justify-end">
-          <Link to="/admin/congestion" className="text-sm font-semibold bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer px-4 py-2 rounded-lg">
+          <Link to="/admin/congestion" className="text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer px-4 py-2 rounded-lg">
             공연장별 혼잡도 현황 전체 보기
           </Link>
         </div>
@@ -77,14 +77,14 @@ export default function AdminDashboardPage() {
       <div>
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-bold text-gray-800">편의시설별 상태 및 혼잡도</h2>
-          <Link to="/admin/facilities" className="text-sm font-semibold bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer px-4 py-2 rounded-lg">
+          <Link to="/admin/facilities" className="text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer px-4 py-2 rounded-lg">
             편의시설 관리
           </Link>
         </div>
         <div className="grid grid-cols-3 gap-4">
           {facilityByType.map(f => {
             const list = facilityZones.filter(z => z.zones.type === f.type)
-            const counts = ['relaxed', 'normal', 'crowded'].map(key => ({
+            const counts = ['relaxed', 'moderate', 'congested'].map(key => ({
               key,
               label: LEVELS[key].label,
               n: list.filter(z => getLevel({ current: z.current_count, max: z.zones.max_capacity, entryBlocked: z.entry_blocked }).key === key).length,

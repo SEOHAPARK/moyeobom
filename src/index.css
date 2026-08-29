@@ -1,40 +1,79 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+/* 모여봄 (MOYEOBOM) 디자인 시스템 토큰. project/tokens/*.css에서 그대로 가져옴 — 값 수정 시 디자인 시스템과 어긋나니 원본을 함께 갱신할 것. */
+@import "./styles/tokens/fonts.css";
+@import "./styles/tokens/colors.css";
+@import "./styles/tokens/typography.css";
+@import "./styles/tokens/spacing.css";
+@import "./styles/tokens/radius.css";
+@import "./styles/tokens/shadow.css";
+@import "./styles/tokens/motion.css";
+@import "./styles/tokens/layout.css";
+@import "./styles/tokens/base.css";
+
 @import "tailwindcss";
 
+/* Tailwind 유틸리티(bg-brand-600, rounded-lg, font-sans 등)가 위 토큰과 동일한 값을 쓰도록 매핑.
+   gray-* 는 디자인 시스템에 없는 이름이라 ink 스케일로 치환해, 기존 코드의 bg-gray-100 등이
+   자동으로 브랜드 뉴트럴 컬러를 쓰게 한다. */
 @theme {
-  --font-heading: "Outfit", "Inter", sans-serif;
-  --font-sans: "Inter", sans-serif;
+  --font-sans: var(--moyeobom-font-base);
+  --font-heading: var(--moyeobom-font-base);
+  --font-mono: var(--moyeobom-font-mono);
 
-  --color-ink-900: #0f172a;
-  --color-ink-800: #1e293b;
-  --color-ink-700: #334155;
+  --color-brand-50: var(--moyeobom-brand-50);
+  --color-brand-100: var(--moyeobom-brand-100);
+  --color-brand-200: var(--moyeobom-brand-200);
+  --color-brand-300: var(--moyeobom-brand-300);
+  --color-brand-400: var(--moyeobom-brand-400);
+  --color-brand-500: var(--moyeobom-brand-500);
+  --color-brand-600: var(--moyeobom-brand-600);
+  --color-brand-700: var(--moyeobom-brand-700);
+  --color-brand-800: var(--moyeobom-brand-800);
+  --color-brand-900: var(--moyeobom-brand-900);
 
-  --color-brand-50: #fff0f3;
-  --color-brand-100: #ffdce4;
-  --color-brand-500: #ff3162;
-  --color-brand-600: #eb1c4d;
-  --color-brand-700: #c81440;
+  --color-ink-100: var(--moyeobom-ink-100);
+  --color-ink-200: var(--moyeobom-ink-200);
+  --color-ink-300: var(--moyeobom-ink-300);
+  --color-ink-400: var(--moyeobom-ink-400);
+  --color-ink-500: var(--moyeobom-ink-500);
+  --color-ink-600: var(--moyeobom-ink-600);
+  --color-ink-700: var(--moyeobom-ink-700);
+  --color-ink-800: var(--moyeobom-ink-800);
+  --color-ink-900: var(--moyeobom-ink-900);
 
-  --color-level-relaxed: #22c55e;
-  --color-level-normal: #eab308;
-  --color-level-crowded: #f97316;
-  --color-level-blocked: #ef4444;
-  --color-level-unknown: #9ca3af;
+  /* 기존 코드 전반에서 쓰는 gray-* 유틸리티를 ink 스케일로 치환 */
+  --color-gray-50: var(--moyeobom-surface);
+  --color-gray-100: var(--moyeobom-ink-100);
+  --color-gray-200: var(--moyeobom-ink-200);
+  --color-gray-300: var(--moyeobom-ink-300);
+  --color-gray-400: var(--moyeobom-ink-400);
+  --color-gray-500: var(--moyeobom-ink-500);
+  --color-gray-600: var(--moyeobom-ink-600);
+  --color-gray-700: var(--moyeobom-ink-700);
+  --color-gray-800: var(--moyeobom-ink-800);
+  --color-gray-900: var(--moyeobom-ink-900);
+
+  --color-paper: var(--moyeobom-paper);
+  --color-surface: var(--moyeobom-surface);
+  --color-line: var(--moyeobom-line);
+  --color-line-soft: var(--moyeobom-line-soft);
+
+  /* 혼잡도 시맨틱 팔레트 — 브랜드 컬러와 절대 섞이지 않음 */
+  --color-relaxed-100: var(--moyeobom-relaxed-100);
+  --color-relaxed-600: var(--moyeobom-relaxed-600);
+  --color-moderate-100: var(--moyeobom-moderate-100);
+  --color-moderate-600: var(--moyeobom-moderate-600);
+  --color-congested-100: var(--moyeobom-congested-100);
+  --color-congested-600: var(--moyeobom-congested-600);
+  --color-blocked-100: var(--moyeobom-blocked-100);
+  --color-blocked-600: var(--moyeobom-blocked-600);
+  --color-info-100: var(--moyeobom-info-100);
+  --color-info-600: var(--moyeobom-info-600);
+
+  --ease-out-expo: var(--moyeobom-ease-out-expo);
+  --ease-in-out-brand: var(--moyeobom-ease-in-out);
 }
 
-body {
-  margin: 0;
-  background: #f8fafc;
-  color: var(--color-ink-900);
-  font-family: var(--font-sans);
-}
-
-h1, h2, h3, h4 {
-  font-family: var(--font-heading);
-}
-
-/* 브랜드 컬러 포커스 링 - 키보드 접근성 */
-:focus-visible {
-  outline: 2px solid var(--color-brand-500);
-  outline-offset: 2px;
-}
+/* radius/shadow는 Tailwind 기본 스케일(sm 4·lg 8·xl 12·2xl 16·3xl 24)이 디자인 시스템 값과
+   픽셀 단위로 이미 일치해 @theme에서 재정의하지 않는다 — 재정의하면 기존 rounded-lg/rounded-xl 등의
+   의미가 바뀌어 버린다. 포팅된 ui/ 컴포넌트는 var(--moyeobom-radius-*), var(--moyeobom-shadow-*)를
+   인라인 스타일로 직접 참조하므로 영향받지 않는다. */

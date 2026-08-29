@@ -33,7 +33,7 @@ export default function AdminZonesPage() {
         <h1 className="text-lg font-bold text-gray-900">공연장 관리</h1>
         <button
           onClick={() => setShowCreate(true)}
-          className="text-sm font-semibold bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer px-4 py-2 rounded-lg"
+          className="text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer px-4 py-2 rounded-lg"
         >
           공연장 등록
         </button>
@@ -46,7 +46,7 @@ export default function AdminZonesPage() {
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="공연장 검색"
-            className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-brand-500 w-48"
+            className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-brand-600 w-48"
           />
         </div>
         <div>
@@ -54,7 +54,7 @@ export default function AdminZonesPage() {
           <select
             value={operatingFilter}
             onChange={e => setOperatingFilter(e.target.value)}
-            className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-brand-500"
+            className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-brand-600"
           >
             <option value="">전체</option>
             {OPERATING_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
@@ -65,12 +65,12 @@ export default function AdminZonesPage() {
           <select
             value={levelFilter}
             onChange={e => setLevelFilter(e.target.value)}
-            className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-brand-500"
+            className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-brand-600"
           >
             <option value="">전체</option>
             <option value="relaxed">여유</option>
-            <option value="normal">보통</option>
-            <option value="crowded">혼잡</option>
+            <option value="moderate">보통</option>
+            <option value="congested">혼잡</option>
             <option value="blocked">입장 불가</option>
           </select>
         </div>
@@ -174,7 +174,7 @@ function CreateZoneModal({ onClose, onCreated }) {
             required
             value={form.name}
             onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-500"
+            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-600"
           />
         </div>
         <div>
@@ -182,7 +182,7 @@ function CreateZoneModal({ onClose, onCreated }) {
           <input
             value={form.description}
             onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-500"
+            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-600"
           />
         </div>
         <div>
@@ -193,7 +193,7 @@ function CreateZoneModal({ onClose, onCreated }) {
             min="1"
             value={form.max_capacity}
             onChange={e => setForm(f => ({ ...f, max_capacity: e.target.value }))}
-            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-500"
+            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-600"
           />
         </div>
         <div className="grid grid-cols-2 gap-3">
@@ -204,7 +204,7 @@ function CreateZoneModal({ onClose, onCreated }) {
               step="any"
               value={form.lat}
               onChange={e => setForm(f => ({ ...f, lat: e.target.value }))}
-              className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-500"
+              className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-600"
             />
           </div>
           <div>
@@ -214,16 +214,16 @@ function CreateZoneModal({ onClose, onCreated }) {
               step="any"
               value={form.lng}
               onChange={e => setForm(f => ({ ...f, lng: e.target.value }))}
-              className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-500"
+              className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-600"
             />
           </div>
         </div>
 
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-blocked-600">{error}</p>}
 
         <div className="flex justify-end gap-2 mt-2">
           <button type="button" onClick={onClose} className="border border-gray-200 rounded-lg px-4 py-2 font-semibold text-gray-700">취소</button>
-          <button type="submit" disabled={saving} className="bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer rounded-lg px-4 py-2 font-semibold disabled:opacity-50">
+          <button type="submit" disabled={saving} className="bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer rounded-lg px-4 py-2 font-semibold disabled:opacity-50">
             {saving ? '등록 중...' : '등록'}
           </button>
         </div>

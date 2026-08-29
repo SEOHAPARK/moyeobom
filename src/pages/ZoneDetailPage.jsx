@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { MapIcon, MapPinIcon, BellIcon, UsersIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
-import { BellAlertIcon } from '@heroicons/react/24/solid'
+import { Icon } from '../components/ui/Icon'
 import { supabase } from '../lib/supabase'
 import { useCongestion } from '../hooks/useCongestion'
 import MobileHeader from '../components/MobileHeader'
@@ -80,7 +79,7 @@ function EventList({ events }) {
                 <div className="flex items-center justify-between">
                   <p className={`font-semibold ${active ? 'text-brand-600' : 'text-gray-800'}`}>{e.name}</p>
                   {active && (
-                    <span className="text-xs bg-brand-500 text-white px-2 py-0.5 rounded-full">진행 중</span>
+                    <span className="text-xs bg-brand-600 text-white px-2 py-0.5 rounded-full">진행 중</span>
                   )}
                 </div>
                 {e.description && <p className="text-sm text-gray-400 mt-1">{e.description}</p>}
@@ -118,11 +117,11 @@ function LocationCard({ description }) {
     <SectionCard title="위치 정보">
       <div className="px-5 pb-5 pt-1">
         <div className="border border-dashed border-gray-200 rounded-xl h-36 flex flex-col items-center justify-center gap-1 text-gray-300 text-sm mb-3">
-          <MapIcon className="w-7 h-7" aria-hidden="true" />
+          <Icon name="map" size={28} />
           Image
         </div>
         <p className="text-sm text-gray-500 flex items-center gap-1.5">
-          <MapPinIcon className="w-4 h-4 shrink-0 text-gray-400" aria-hidden="true" />
+          <Icon name="map-pin" size={16} className="shrink-0 text-gray-400" />
           {description || '위치 정보가 등록되지 않았습니다'}
         </p>
       </div>
@@ -149,14 +148,10 @@ function NotifyButton({ startTime }) {
     <button
       onClick={toggle}
       className={`min-h-11 rounded-xl py-2.5 font-bold text-sm transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${
-        subscribed ? 'bg-brand-50 text-brand-600 border border-brand-500' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+        subscribed ? 'bg-brand-50 text-brand-600 border border-brand-600' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
       }`}
     >
-      {subscribed ? (
-        <BellAlertIcon className="w-4 h-4 shrink-0" aria-hidden="true" />
-      ) : (
-        <BellIcon className="w-4 h-4 shrink-0" aria-hidden="true" />
-      )}
+      <Icon name={subscribed ? 'bell-ring' : 'bell'} size={16} className="shrink-0" />
       <span className="truncate">{subscribed ? `설정됨${startTime ? ` (${startTime})` : ''}` : '알림 받기'}</span>
     </button>
   )
@@ -171,7 +166,7 @@ function CrowdDetail({ zone, level, percent, online }) {
       </div>
       <div className="flex items-center justify-between">
         <span className="text-gray-400">혼잡 단계</span>
-        <span className={`font-semibold ${level.text}`}>{level.label} ({percent ?? '-'}%)</span>
+        <span className="font-semibold" style={{ color: level.fg }}>{level.label} ({percent ?? '-'}%)</span>
       </div>
       <div className="flex items-center justify-between">
         <span className="text-gray-400">데이터 상태</span>
@@ -223,14 +218,14 @@ export default function ZoneDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <MobileHeader titlePill={{ label: info.name, dot: level.dot }} />
+      <MobileHeader titlePill={{ label: info.name, color: level.fg }} />
 
       <main className="max-w-xl mx-auto px-4 py-5 flex flex-col gap-4">
         <div className="bg-white rounded-2xl border border-gray-100 p-5">
           <h2 className="font-heading text-xl font-bold text-gray-900">{nowPlaying?.artist ?? info.name}</h2>
           <p className="text-sm text-gray-500 mt-1">
             {zoneType === 'stage' ? (nowPlaying ? '공연중' : '공연 없음') : (info.operating_status ?? '운영 정보')}{' '}
-            <span className={`font-semibold ${level.key === 'blocked' ? 'text-red-600' : 'text-green-600'}`}>
+            <span className="font-semibold" style={{ color: level.key === 'blocked' ? 'var(--moyeobom-blocked-600)' : 'var(--moyeobom-relaxed-600)' }}>
               {getAvailabilityLabel(level, zoneType)}
             </span>
           </p>
@@ -248,7 +243,7 @@ export default function ZoneDetailPage() {
                 aria-expanded={showCrowdDetail}
                 className="min-h-11 rounded-xl py-2.5 font-bold text-sm bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
               >
-                <UsersIcon className="w-4 h-4 shrink-0" aria-hidden="true" />
+                <Icon name="users" size={16} className="shrink-0" />
                 <span className="truncate">대기 현장 보기</span>
               </button>
               <NotifyButton startTime={nowPlaying ? undefined : performances[0]?.start_time} />
@@ -278,10 +273,10 @@ export default function ZoneDetailPage() {
           <div className="flex flex-col gap-2 pt-1">
             <button
               onClick={() => navigate(`/route/${zoneId}`)}
-              className="w-full bg-brand-500 text-white rounded-xl py-3.5 font-bold text-sm hover:bg-brand-600 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+              className="w-full bg-brand-600 text-white rounded-xl py-3.5 font-bold text-sm hover:bg-brand-700 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
             >
               현재 위치에서 경로 안내
-              <ArrowRightIcon className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <Icon name="arrow-right" size={16} className="shrink-0" />
             </button>
             <button
               onClick={() => navigate(`/route/${zoneId}/origin`)}
