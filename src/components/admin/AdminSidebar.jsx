@@ -1,18 +1,12 @@
 import { NavLink } from 'react-router-dom'
-import {
-  HomeIcon,
-  MusicalNoteIcon,
-  BuildingStorefrontIcon,
-  ChartBarIcon,
-  ShieldCheckIcon,
-} from '@heroicons/react/24/outline'
+import { Icon } from '../ui/Icon'
 
 const items = [
-  { to: '/admin', label: '대시보드', end: true, icon: HomeIcon },
-  { to: '/admin/zones', label: '공연장 관리', icon: MusicalNoteIcon },
-  { to: '/admin/facilities', label: '편의시설 관리', icon: BuildingStorefrontIcon },
-  { to: '/admin/congestion', label: '혼잡도 현황', icon: ChartBarIcon },
-  { to: '/admin/privacy', label: '개인정보 보호', icon: ShieldCheckIcon },
+  { to: '/admin', label: '대시보드', end: true, icon: 'layout-dashboard' },
+  { to: '/admin/zones', label: '공연장 관리', icon: 'music' },
+  { to: '/admin/facilities', label: '편의시설 관리', icon: 'store' },
+  { to: '/admin/congestion', label: '혼잡도 현황', icon: 'bar-chart-3' },
+  { to: '/admin/privacy', label: '개인정보 보호', icon: 'shield-check' },
 ]
 
 export default function AdminSidebar() {
@@ -31,7 +25,7 @@ export default function AdminSidebar() {
               }`
             }
           >
-            <item.icon className="w-5 h-5 shrink-0" aria-hidden="true" />
+            <Icon name={item.icon} size={20} className="shrink-0" />
             {item.label}
           </NavLink>
         ))}

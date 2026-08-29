@@ -74,18 +74,18 @@ export default function AdminZoneCapacityPage() {
           value={capacity}
           onChange={e => setValue(e.target.value)}
           placeholder={String(zone.zones.max_capacity)}
-          className="mt-1 w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-500"
+          className="mt-1 w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-600"
         />
         <p className="text-xs text-gray-400 mt-2">수용인원은 1 이상의 정수로 입력하세요. 저장 후 혼잡도 산정에 즉시 반영됩니다.</p>
         <p className="text-xs text-gray-400">* 필수 입력 항목입니다.</p>
 
-        {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
+        {error && <p className="text-sm text-blocked-600 mt-2">{error}</p>}
 
         <div className="flex justify-end gap-2 mt-4">
           <Link to="/admin/congestion" className="border border-gray-200 rounded-lg px-4 py-2 text-sm font-semibold text-gray-700">
             공연장 혼잡도 현황으로
           </Link>
-          <button type="submit" disabled={saving} className="bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold disabled:opacity-50">
+          <button type="submit" disabled={saving} className="bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold disabled:opacity-50">
             {saving ? '저장 중...' : '저장'}
           </button>
         </div>

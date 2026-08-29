@@ -1,16 +1,18 @@
-export const LEVELS = {
-  relaxed: { label: '여유', dot: 'bg-green-500', text: 'text-green-700', bg: 'bg-green-50', border: 'border-green-200', bar: 'bg-green-500' },
-  normal: { label: '보통', dot: 'bg-yellow-500', text: 'text-yellow-700', bg: 'bg-yellow-50', border: 'border-yellow-200', bar: 'bg-yellow-500' },
-  crowded: { label: '혼잡', dot: 'bg-orange-500', text: 'text-orange-700', bg: 'bg-orange-50', border: 'border-orange-200', bar: 'bg-orange-500' },
-  blocked: { label: '입장 불가', dot: 'bg-red-500', text: 'text-red-700', bg: 'bg-red-50', border: 'border-red-200', bar: 'bg-red-500' },
-  unknown: { label: '정보 없음', dot: 'bg-gray-400', text: 'text-gray-500', bg: 'bg-gray-50', border: 'border-gray-200', bar: 'bg-gray-400' },
+export const CONGESTION = {
+  relaxed: { label: '여유', bg: 'var(--moyeobom-relaxed-100)', fg: 'var(--moyeobom-relaxed-600)', range: '0–33%' },
+  moderate: { label: '보통', bg: 'var(--moyeobom-moderate-100)', fg: 'var(--moyeobom-moderate-600)', range: '33–66%' },
+  congested: { label: '혼잡', bg: 'var(--moyeobom-congested-100)', fg: 'var(--moyeobom-congested-600)', range: '66–100%' },
+  blocked: { label: '입장불가', bg: 'var(--moyeobom-blocked-100)', fg: 'var(--moyeobom-blocked-600)', range: '100%+' },
+  unknown: { label: '정보 없음', bg: 'var(--moyeobom-ink-100)', fg: 'var(--moyeobom-ink-600)', range: '' },
 }
+
+export const LEVELS = CONGESTION
 
 // 혼잡도 비율(%) -> 상태 키. 명세: 0~33 여유, 33~66 보통, 66~100 혼잡, 100+ 입장불가(관리자 확인 필요)
 export function ratioToKey(percent) {
   if (percent >= 100) return 'blocked'
-  if (percent >= 66) return 'crowded'
-  if (percent >= 33) return 'normal'
+  if (percent >= 66) return 'congested'
+  if (percent >= 33) return 'moderate'
   return 'relaxed'
 }
 
@@ -27,15 +29,15 @@ export function getAvailabilityLabel(level, zoneType) {
 
 // entryBlocked: 관리자가 입장불가로 확정한 경우에만 blocked로 표시(명세 4.1.2)
 export function getLevel({ current, max, manualStatus, entryBlocked }) {
-  if (manualStatus && LEVELS[manualStatus]) return { key: manualStatus, ...LEVELS[manualStatus] }
+  if (manualStatus && CONGESTION[manualStatus]) return { key: manualStatus, ...CONGESTION[manualStatus] }
 
   const percent = getPercent(current, max)
-  if (percent == null) return { key: 'unknown', ...LEVELS.unknown }
+  if (percent == null) return { key: 'unknown', ...CONGESTION.unknown }
 
   if (percent >= 100 && !entryBlocked) {
     // 100% 이상이지만 관리자 확인 전이면 '혼잡'까지만 노출
-    return { key: 'crowded', ...LEVELS.crowded }
+    return { key: 'congested', ...CONGESTION.congested }
   }
   const key = ratioToKey(percent)
-  return { key, ...LEVELS[key] }
+  return { key, ...CONGESTION[key] }
 }

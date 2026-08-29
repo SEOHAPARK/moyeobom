@@ -3,21 +3,13 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { getLevel } from '../lib/congestion'
 
-const DOT_COLOR = {
-  relaxed: '#22c55e',
-  normal: '#eab308',
-  crowded: '#f97316',
-  blocked: '#ef4444',
-  unknown: '#9ca3af',
-}
-
 function pillHtml(zone, selected) {
   const level = getLevel({ current: zone.current_count, max: zone.zones.max_capacity, entryBlocked: zone.entry_blocked })
-  const color = DOT_COLOR[level.key]
+  const color = level.fg
 
   const pill = selected
-    ? `background:${color};color:white;border:2px solid white;`
-    : `background:white;color:#0f172a;border:1px solid rgba(0,0,0,0.08);`
+    ? `background:${color};color:var(--moyeobom-paper);border:2px solid var(--moyeobom-paper);`
+    : `background:var(--moyeobom-paper);color:var(--moyeobom-ink-900);border:1px solid var(--moyeobom-line);`
 
   const dot = selected ? '' : `<span style="width:7px;height:7px;border-radius:999px;background:${color};flex-shrink:0;"></span>`
 
@@ -25,10 +17,10 @@ function pillHtml(zone, selected) {
     display:inline-flex;align-items:center;gap:5px;
     ${pill}
     padding:6px 12px;
-    border-radius:999px;
-    font-size:12px;font-weight:700;
+    border-radius:var(--moyeobom-radius-full);
+    font:700 12px var(--moyeobom-font-base);
     white-space:nowrap;
-    box-shadow:0 2px 6px rgba(0,0,0,0.15);
+    box-shadow:var(--moyeobom-shadow-sm);
     cursor:pointer;
   ">${dot}${zone.zones.name}</div>`
 }

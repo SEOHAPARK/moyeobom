@@ -16,8 +16,8 @@ export default function CongestionBar({ percent, level }) {
       </span>
       <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
         <div
-          className={`h-2 rounded-full ${level.bar} transition-all duration-500`}
-          style={{ width: `${clamped}%` }}
+          className="h-2 rounded-full transition-all duration-500"
+          style={{ width: `${clamped}%`, background: level.fg }}
         />
       </div>
       <span

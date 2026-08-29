@@ -1,0 +1,19 @@
+:root{
+/* Brand scale — primary is 600 (#FF3162). The ONLY brand color. */
+--moyeobom-brand-50:#FFF5F7;--moyeobom-brand-100:#FFE0E7;--moyeobom-brand-200:#FFC1D0;--moyeobom-brand-300:#FF98B0;--moyeobom-brand-400:#FF6F91;--moyeobom-brand-500:#FF507A;--moyeobom-brand-600:#FF3162;--moyeobom-brand-700:#FF0D46;--moyeobom-brand-800:#E40036;--moyeobom-brand-900:#A70028;
+/* Ink scale — text */
+--moyeobom-ink-100:#F3F3F4;--moyeobom-ink-200:#E8E7E8;--moyeobom-ink-300:#D1CFD2;--moyeobom-ink-400:#B6B2B8;--moyeobom-ink-500:#968E9B;--moyeobom-ink-600:#766C7C;--moyeobom-ink-700:#554D5B;--moyeobom-ink-800:#342E38;--moyeobom-ink-900:#18151A;
+/* Surfaces */
+--moyeobom-paper:#FFFFFF;--moyeobom-surface:#FAF8F9;--moyeobom-line:#E8E5E7;--moyeobom-line-soft:#F1EFF0;
+/* Semantic — congestion states. NEVER substitute brand color here. */
+--moyeobom-relaxed-100:#DCFCE7;--moyeobom-relaxed-600:#16A34A;
+--moyeobom-moderate-100:#FEF3C7;--moyeobom-moderate-600:#F59E0B;
+--moyeobom-congested-100:#FFEDD5;--moyeobom-congested-600:#F97316;
+--moyeobom-blocked-100:#FEE2E2;--moyeobom-blocked-600:#DC2626;
+--moyeobom-info-100:#DBEAFE;--moyeobom-info-600:#2563EB;
+/* Semantic aliases */
+--text-body:var(--moyeobom-ink-900);--text-secondary:var(--moyeobom-ink-700);--text-muted:var(--moyeobom-ink-600);--text-disabled:var(--moyeobom-ink-500);--text-inverse:var(--moyeobom-paper);--text-brand:var(--moyeobom-brand-600);
+--surface-page:var(--moyeobom-paper);--surface-card:var(--moyeobom-surface);--surface-brand-wash:var(--moyeobom-brand-50);--surface-inverse:var(--moyeobom-brand-900);
+--border-default:var(--moyeobom-line);--border-soft:var(--moyeobom-line-soft);--border-strong:var(--moyeobom-ink-300);
+--action-primary:var(--moyeobom-brand-600);--action-primary-hover:var(--moyeobom-brand-700);--focus-ring:rgba(255,49,98,.4);
+}

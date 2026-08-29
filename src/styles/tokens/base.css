@@ -1,0 +1,7 @@
+/* Minimal reset — canvas is pure white, body text is ink-900 at 15px. */
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--surface-page);color:var(--text-body);font:var(--moyeobom-text-body);-webkit-font-smoothing:antialiased}
+a{color:var(--moyeobom-brand-600);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+a:hover{color:var(--moyeobom-brand-700)}
+:focus-visible{outline:2px solid var(--moyeobom-brand-600);outline-offset:2px}
+img{max-width:100%}

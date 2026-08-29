@@ -1,0 +1,18 @@
+<svg viewBox="0 0 140 160" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(20,10) scale(0.8)">
+    <defs>
+      <path id="mo-block-lv" d="M 8 8 L 44 8 L 44 30 L 30 30 L 30 44 L 8 44 Z"></path>
+    </defs>
+    <g fill="#FF3162">
+      <use href="#mo-block-lv" transform="rotate(0 50 50)"></use>
+      <use href="#mo-block-lv" transform="rotate(90 50 50)"></use>
+      <use href="#mo-block-lv" transform="rotate(180 50 50)"></use>
+      <use href="#mo-block-lv" transform="rotate(270 50 50)"></use>
+    </g>
+    <g fill="#FF3162">
+      <rect x="46.5" y="40" width="7" height="20" rx="1.5"></rect>
+      <rect x="40" y="46.5" width="20" height="7" rx="1.5"></rect>
+    </g>
+  </g>
+  <text x="70" y="140" text-anchor="middle" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" font-weight="800" font-size="26" fill="#18151A" letter-spacing="-1">모여봄</text>
+</svg>

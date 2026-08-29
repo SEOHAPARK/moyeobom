@@ -1,4 +1,4 @@
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import { Icon } from '../ui/Icon'
 
 export default function Modal({ title, onClose, children, width = 'max-w-md' }) {
   return (
@@ -12,7 +12,7 @@ export default function Modal({ title, onClose, children, width = 'max-w-md' }) 
               aria-label="닫기"
               className="-mr-2 -mt-2 w-11 h-11 flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-50 hover:text-gray-700 cursor-pointer transition-colors"
             >
-              <XMarkIcon className="w-5 h-5" aria-hidden="true" />
+              <Icon name="x" size={20} />
             </button>
           )}
         </div>

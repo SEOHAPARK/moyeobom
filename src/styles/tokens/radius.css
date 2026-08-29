@@ -1,0 +1,5 @@
+:root{
+--moyeobom-radius-none:0px;--moyeobom-radius-xs:4px;--moyeobom-radius-sm:8px;--moyeobom-radius-md:12px;--moyeobom-radius-lg:16px;--moyeobom-radius-xl:24px;--moyeobom-radius-full:9999px;
+/* semantic: marketing CTA = pill, product UI control = md */
+--radius-cta-marketing:var(--moyeobom-radius-full);--radius-control:var(--moyeobom-radius-md);--radius-card:var(--moyeobom-radius-lg);--radius-badge:var(--moyeobom-radius-full);--radius-sheet-top:var(--moyeobom-radius-xl);--radius-image:var(--moyeobom-radius-lg);--radius-avatar:var(--moyeobom-radius-full);
+}

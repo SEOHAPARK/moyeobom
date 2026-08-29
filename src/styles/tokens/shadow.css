@@ -1,0 +1,10 @@
+:root{
+--moyeobom-shadow-none:none;
+--moyeobom-shadow-xs:0 1px 2px rgba(24,21,26,.06);
+--moyeobom-shadow-sm:0 2px 6px rgba(24,21,26,.08);
+--moyeobom-shadow-md:0 8px 24px rgba(24,21,26,.10);
+--moyeobom-shadow-lg:0 16px 40px rgba(24,21,26,.12);
+--moyeobom-shadow-xl:0 24px 64px rgba(24,21,26,.16);
+/* semantic: default is none — separate with borders. Colored shadows are forbidden. */
+--shadow-card:var(--moyeobom-shadow-none);--shadow-card-hover:var(--moyeobom-shadow-xs);--shadow-floating:var(--moyeobom-shadow-md);--shadow-modal:var(--moyeobom-shadow-lg);
+}

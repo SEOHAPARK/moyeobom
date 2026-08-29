@@ -4,6 +4,7 @@ import { useCongestion } from '../../hooks/useCongestion'
 import { useAdminAuth } from '../../hooks/useAdminAuth'
 import { getLevel, getPercent, LEVELS } from '../../lib/congestion'
 import { formatTime } from '../../lib/format'
+import { CongestionBadge } from '../../components/ui/CongestionBadge'
 import StatTile from '../../components/admin/StatTile'
 import Modal from '../../components/admin/Modal'
 import { supabase } from '../../lib/supabase'
@@ -11,8 +12,8 @@ import { supabase } from '../../lib/supabase'
 const FILTER_OPTIONS = [
   { key: '', label: '전체' },
   { key: 'relaxed', label: '여유' },
-  { key: 'normal', label: '보통' },
-  { key: 'crowded', label: '혼잡' },
+  { key: 'moderate', label: '보통' },
+  { key: 'congested', label: '혼잡' },
   { key: 'blocked', label: '입장 불가' },
 ]
 
@@ -51,7 +52,7 @@ export default function AdminCongestionPage() {
   }))
 
   const filtered = filter ? withLevel.filter(z => z.level.key === filter) : withLevel
-  const crowdedCount = withLevel.filter(z => z.level.key === 'crowded' || z.level.key === 'blocked').length
+  const crowdedCount = withLevel.filter(z => z.level.key === 'congested' || z.level.key === 'blocked').length
   const blockedCount = withLevel.filter(z => z.level.key === 'blocked').length
   const manualCount = withLevel.filter(z => z.manual_status || z.entry_blocked).length
 
@@ -94,7 +95,7 @@ export default function AdminCongestionPage() {
             혼잡도 상태 안내
           </button>
         </div>
-        <Link to="/admin/zones" className="text-sm font-semibold bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer px-4 py-2 rounded-lg">
+        <Link to="/admin/zones" className="text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer px-4 py-2 rounded-lg">
           수용인원 입력
         </Link>
       </div>
@@ -114,7 +115,7 @@ export default function AdminCongestionPage() {
               key={o.key}
               onClick={() => setFilter(o.key)}
               className={`px-4 py-1.5 rounded-full text-sm font-semibold border ${
-                filter === o.key ? 'bg-brand-500 text-white border-brand-500' : 'bg-white text-gray-500 border-gray-200'
+                filter === o.key ? 'bg-brand-600 text-white border-brand-600' : 'bg-white text-gray-500 border-gray-200'
               }`}
             >
               {o.label}
@@ -174,17 +175,18 @@ export default function AdminCongestionPage() {
                   <p className="text-xs text-gray-400 mt-0.5">수용인원 {z.zones.max_capacity.toLocaleString()}명</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-700">{z.level.label}</span>
+                  <CongestionBadge state={z.level.key} size="sm" />
                   {z.percent >= 100 && !z.entry_blocked && (
                     <button
                       onClick={() => setEntryBlockedZone(z)}
-                      className="text-xs font-semibold px-2.5 py-1 rounded-full border border-red-200 text-red-600"
+                      className="text-xs font-semibold px-2.5 py-1 rounded-full border text-blocked-600"
+                      style={{ borderColor: 'var(--moyeobom-blocked-100)' }}
                     >
                       입장 불가 확인
                     </button>
                   )}
                   {z.entry_blocked && (
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-red-600 text-white">입장 불가</span>
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-blocked-600 text-white">입장 불가</span>
                   )}
                   <button onClick={() => setStatusModalZone(z)} className="text-xs text-gray-400 underline underline-offset-2 cursor-pointer hover:text-gray-600">
                     상태 변경
@@ -270,7 +272,7 @@ function StatusChangeModal({ zone, changedBy, onClose, onSaved }) {
         <p className="text-sm text-gray-600">수동으로 변경한 상태는 자동 산정값보다 우선 적용됩니다. 계속하시겠습니까?</p>
         <div className="flex justify-end gap-2 mt-5">
           <button onClick={() => setConfirming(false)} className="border border-gray-200 rounded-lg px-4 py-2 text-sm font-semibold text-gray-700">취소</button>
-          <button onClick={handleSave} disabled={saving} className="bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold disabled:opacity-50">
+          <button onClick={handleSave} disabled={saving} className="bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold disabled:opacity-50">
             {saving ? '저장 중...' : '저장'}
           </button>
         </div>
@@ -309,7 +311,7 @@ function StatusChangeModal({ zone, changedBy, onClose, onSaved }) {
           <select
             value={status}
             onChange={e => setStatus(e.target.value)}
-            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-500"
+            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-600"
           >
             <option value="">Select...</option>
             {Object.entries(LEVELS).filter(([k]) => k !== 'unknown').map(([k, v]) => (
@@ -325,7 +327,7 @@ function StatusChangeModal({ zone, changedBy, onClose, onSaved }) {
             value={reason}
             onChange={e => setReason(e.target.value)}
             placeholder="변경 사유를 입력하세요"
-            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-500 resize-none"
+            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-600 resize-none"
           />
           <p className="text-xs text-gray-400 mt-1">변경 사유는 상태 변경 이력에 기록되며 운영자가 확인할 수 있습니다.</p>
         </div>
@@ -336,7 +338,7 @@ function StatusChangeModal({ zone, changedBy, onClose, onSaved }) {
         <button
           onClick={() => setConfirming(true)}
           disabled={!status || !reason.trim()}
-          className="bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold disabled:opacity-40"
+          className="bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold disabled:opacity-40"
         >
           저장
         </button>
@@ -375,7 +377,7 @@ function EntryBlockedModal({ zone, onCancel, onConfirm }) {
           rows={3}
           value={reason}
           onChange={e => setReason(e.target.value)}
-          className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-brand-500 resize-none"
+          className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-brand-600 resize-none"
         />
       </div>
       <div className="flex justify-end gap-2 mt-5">
@@ -383,7 +385,7 @@ function EntryBlockedModal({ zone, onCancel, onConfirm }) {
         <button
           onClick={handleConfirm}
           disabled={saving || !reason.trim()}
-          className="min-h-11 bg-red-600 text-white rounded-lg px-4 py-2 text-sm font-semibold hover:bg-red-700 disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed transition-colors"
+          className="min-h-11 bg-blocked-600 text-white rounded-lg px-4 py-2 text-sm font-semibold hover:brightness-95 disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed transition-colors"
         >
           {saving ? '처리 중...' : '입장 불가 처리'}
         </button>
@@ -401,7 +403,7 @@ function CongestionInfoModal({ onClose }) {
         <p>개인 식별 정보나 카메라 영상은 어떤 화면에도 표시되지 않으며, 집계된 혼잡도 수치만 사용됩니다.</p>
       </div>
       <div className="flex justify-end mt-5">
-        <button onClick={onClose} className="bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold">확인</button>
+        <button onClick={onClose} className="bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold">확인</button>
       </div>
     </Modal>
   )

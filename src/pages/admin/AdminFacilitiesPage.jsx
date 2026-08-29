@@ -44,7 +44,7 @@ export default function AdminFacilitiesPage() {
         <h1 className="text-lg font-bold text-gray-900">편의시설 관리</h1>
         <button
           onClick={() => setShowCreate(true)}
-          className="text-sm font-semibold bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer px-4 py-2 rounded-lg"
+          className="text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer px-4 py-2 rounded-lg"
         >
           새 시설 등록
         </button>
@@ -57,19 +57,19 @@ export default function AdminFacilitiesPage() {
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="시설명 검색"
-            className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-brand-500 w-48"
+            className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-brand-600 w-48"
           />
         </div>
         <div>
           <p className="text-xs text-gray-400 mb-1">시설 유형</p>
-          <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-brand-500">
+          <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-brand-600">
             <option value="">전체</option>
             {TYPE_OPTIONS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
           </select>
         </div>
         <div>
           <p className="text-xs text-gray-400 mb-1">노출 상태</p>
-          <select value={exposureFilter} onChange={e => setExposureFilter(e.target.value)} className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-brand-500">
+          <select value={exposureFilter} onChange={e => setExposureFilter(e.target.value)} className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-brand-600">
             <option value="">전체</option>
             <option value="노출">노출</option>
             <option value="미노출">미노출</option>
@@ -172,7 +172,7 @@ function CreateFacilityModal({ onClose, onCreated }) {
             required
             value={form.name}
             onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-500"
+            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-600"
           />
         </div>
         <div>
@@ -180,7 +180,7 @@ function CreateFacilityModal({ onClose, onCreated }) {
           <select
             value={form.type}
             onChange={e => setForm(f => ({ ...f, type: e.target.value }))}
-            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-500"
+            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-600"
           >
             {TYPE_OPTIONS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
           </select>
@@ -190,7 +190,7 @@ function CreateFacilityModal({ onClose, onCreated }) {
           <input
             value={form.location_desc}
             onChange={e => setForm(f => ({ ...f, location_desc: e.target.value }))}
-            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-500"
+            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-600"
           />
         </div>
         <div>
@@ -199,7 +199,7 @@ function CreateFacilityModal({ onClose, onCreated }) {
             placeholder="예: 11:00 - 22:00"
             value={form.operating_hours}
             onChange={e => setForm(f => ({ ...f, operating_hours: e.target.value }))}
-            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-500"
+            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-600"
           />
         </div>
         <div>
@@ -208,7 +208,7 @@ function CreateFacilityModal({ onClose, onCreated }) {
             rows={3}
             value={form.detail}
             onChange={e => setForm(f => ({ ...f, detail: e.target.value }))}
-            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-500 resize-none"
+            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-600 resize-none"
           />
         </div>
         <div>
@@ -216,18 +216,18 @@ function CreateFacilityModal({ onClose, onCreated }) {
           <select
             value={form.active ? 'true' : 'false'}
             onChange={e => setForm(f => ({ ...f, active: e.target.value === 'true' }))}
-            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-500"
+            className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-brand-600"
           >
             <option value="true">노출</option>
             <option value="false">미노출</option>
           </select>
         </div>
 
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-blocked-600">{error}</p>}
 
         <div className="flex justify-end gap-2 mt-2">
           <button type="button" onClick={onClose} className="border border-gray-200 rounded-lg px-4 py-2 font-semibold text-gray-700">취소</button>
-          <button type="submit" disabled={saving} className="bg-brand-500 text-white hover:bg-brand-600 transition-colors cursor-pointer rounded-lg px-4 py-2 font-semibold disabled:opacity-50">
+          <button type="submit" disabled={saving} className="bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer rounded-lg px-4 py-2 font-semibold disabled:opacity-50">
             {saving ? '등록 중...' : '등록'}
           </button>
         </div>

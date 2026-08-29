@@ -1,11 +1,11 @@
-import { CheckCircleIcon, ExclamationTriangleIcon, MapIcon } from '@heroicons/react/24/outline'
+import { Icon } from '../components/ui/Icon'
 import MobileHeader from '../components/MobileHeader'
 import SectionCard from '../components/SectionCard'
 import { useCongestion } from '../hooks/useCongestion'
 import { getLevel, getPercent, LEVELS } from '../lib/congestion'
 import { formatTime } from '../lib/format'
 
-const LEGEND = ['relaxed', 'normal', 'crowded', 'blocked']
+const LEGEND = ['relaxed', 'moderate', 'congested', 'blocked']
 
 export default function OfflineMapPage() {
   const { zones, lastUpdated, online } = useCongestion()
@@ -22,7 +22,7 @@ export default function OfflineMapPage() {
           <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-sm">
             <div className="flex items-center justify-between font-semibold text-gray-600">
               <span className="flex items-center gap-1.5">
-                <CheckCircleIcon className="w-4.5 h-4.5 text-green-500" aria-hidden="true" />
+                <Icon name="check-circle-2" size={18} className="text-relaxed-600" />
                 온라인 상태
               </span>
               <span className="text-xs font-normal text-gray-400">최종 갱신 {lastUpdated ? formatTime(lastUpdated) : '-'}</span>
@@ -33,7 +33,7 @@ export default function OfflineMapPage() {
           <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-sm">
             <div className="flex items-center justify-between font-semibold text-amber-700">
               <span className="flex items-center gap-1.5">
-                <ExclamationTriangleIcon className="w-4.5 h-4.5" aria-hidden="true" />
+                <Icon name="alert-triangle" size={18} />
                 오프라인 상태
               </span>
               <span className="text-xs font-normal text-amber-600">마지막 갱신 {lastUpdated ? formatTime(lastUpdated) : '-'}</span>
@@ -43,14 +43,14 @@ export default function OfflineMapPage() {
         )}
 
         <div className="border border-dashed border-gray-200 rounded-2xl h-64 bg-white flex flex-col items-center justify-center gap-1.5 text-gray-300 text-sm">
-          <MapIcon className="w-8 h-8" aria-hidden="true" />
+          <Icon name="map" size={32} />
           Image
         </div>
 
         <div className="flex flex-wrap gap-3 text-xs text-gray-500">
           {LEGEND.map(key => (
             <span key={key} className="flex items-center gap-1.5">
-              <span className={`w-2 h-2 rounded-full ${LEVELS[key].dot}`} />
+              <span className="w-2 h-2 rounded-full" style={{ background: LEVELS[key].fg }} />
               {LEVELS[key].label}
             </span>
           ))}

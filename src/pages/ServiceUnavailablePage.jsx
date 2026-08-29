@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom'
-import { QrCodeIcon } from '@heroicons/react/24/outline'
+import { Icon } from '../components/ui/Icon'
 
 export default function ServiceUnavailablePage() {
   const [params] = useSearchParams()
@@ -16,7 +16,7 @@ export default function ServiceUnavailablePage() {
       <main className="max-w-xl mx-auto px-4 py-8 flex flex-col gap-4">
         <div className="flex flex-col items-center text-center gap-3">
           <div className="w-14 h-14 rounded-full border-2 border-gray-300 flex items-center justify-center text-gray-400">
-            <QrCodeIcon className="w-6 h-6" aria-hidden="true" />
+            <Icon name="qr-code" size={24} />
           </div>
           <div>
             <h2 className="font-heading text-xl font-bold text-gray-900">이용할 수 없는 행사입니다</h2>

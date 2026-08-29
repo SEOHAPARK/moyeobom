@@ -1,0 +1,6 @@
+:root{
+--moyeobom-container-max:1200px;--moyeobom-container-reading:680px;--moyeobom-container-gutter:24px;
+--moyeobom-nav-height-marketing:72px;--moyeobom-nav-height-mobile-app:56px;--moyeobom-tabbar-height:56px;--moyeobom-admin-sidebar-width:240px;
+--moyeobom-touch-target-min:44px;
+--moyeobom-breakpoint-sm:640px;--moyeobom-breakpoint-md:768px;--moyeobom-breakpoint-lg:1024px;--moyeobom-breakpoint-xl:1280px;
+}
